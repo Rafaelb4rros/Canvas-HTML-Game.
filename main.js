@@ -163,7 +163,6 @@ function colisao() {
 }
 
 function restart() {
-    document.getElementById("travessias").innerHTML = 0;
     playerPosx = 130;
     playerPosy = 550;
 }
