@@ -8,23 +8,12 @@ playerWid = 30;
 playerSpd = 3;
 
 
-carPosx = 730;
-carPosy = 485;
-carHei = 30;
-carWid = 60;
-carSpd = 45;
+var carrosX = [730, 730, 730, 730, 730];
+var carrosY = [485, 485 -100, 485 -200, 485 -300, 485 -400];
+var carrosSpd = [45, 25, 35 , 30 ,20];
 
-car2posx = 730;
-car2Spd = 25;
-
-car3posx = 730;
-car3Spd = 35;
-
-car4posx = 730;
-car4Spd = 30;
-
-car5posx = 730;
-car5Spd = 20;
+carsHei = 30;
+carsWid = 60;
 
 
 /* movendo personagem */
@@ -83,6 +72,8 @@ function move() {
 }
 /* movendo personagem */
 
+
+/* colisao do personagem nas bordas */
 function limite() {
     if(playerPosx <= 0) {
         playerPosx += playerWid -27;
@@ -97,76 +88,43 @@ function limite() {
         playerPosy -= plaherHei -27;
     }
 }
+/* colisao do personagem nas bordas */
 
+
+/* movimento e loop */
 function movecar() {
-    carPosx -= carSpd;
-    car2posx -= car2Spd;
-    car3posx -= car3Spd;
-    car4posx -= car4Spd;
-    car5posx -= car5Spd;
+    carrosX[0] -= carrosSpd[0];
+    carrosX[1] -= carrosSpd[1];
+    carrosX[2] -= carrosSpd[2];;
+    carrosX[3] -= carrosSpd[3];;
+    carrosX[4] -= carrosSpd[4];;
 
-
-    if(carPosx <= -60) {
-        carPosx *= -13;
-    }
-    if(car2posx <= -60) {
-        car2posx *= -13;
-    }
-    if(car3posx <= -60) {
-        car3posx *= -13;
-    }
-    if(car4posx <= -60) {
-        car4posx *= -13;
-    }
-    if(car5posx <= -60) {
-        car5posx *= -13;
+    for(var i = 0; i < 5; i++) {
+    if(carrosX[i] <= -60) {
+        carrosX[i] *= -13;
     }
 }
+}
+/* movimento e loop */
 
+
+/*colisao do player com os carros */
 function colisao() {
-    if(playerPosx < carPosx + carWid &&
-        playerPosx + playerWid > carPosx && 
-        playerPosy < carPosy + carHei &&
-        playerPosy + plaherHei > carPosy) {
+    for(var i = 0; i < 5; i++) {
+    if(playerPosx < carrosX[i] + carsWid &&
+        playerPosx + playerWid > carrosX[i] && 
+        playerPosy < carrosY[i] + carsHei &&
+        playerPosy + plaherHei > carrosY[i]) {
 
             restart();
-    }
-
-    if(playerPosx < car2posx + carWid &&
-        playerPosx + playerWid > car2posx && 
-        playerPosy < carPosy -100 + carHei &&
-        playerPosy + plaherHei > carPosy -100){
-
-            restart();
-    }
-    if(playerPosx < car3posx + carWid &&
-        playerPosx + playerWid > car3posx && 
-        playerPosy < carPosy -200 + carHei &&
-        playerPosy + plaherHei > carPosy -200){
-
-            restart();
-    }
-    if(playerPosx < car4posx + carWid &&
-        playerPosx + playerWid > car4posx && 
-        playerPosy < carPosy -300 + carHei &&
-        playerPosy + plaherHei > carPosy -300){
-
-            restart(); 
-    }
-    if(playerPosx < car5posx + carWid &&
-        playerPosx + playerWid > car5posx && 
-        playerPosy < carPosy -400 + carHei &&
-        playerPosy + plaherHei > carPosy -400){
-            
-            restart(); 
     }
 }
-
+}
 function restart() {
     playerPosx = 130;
     playerPosy = 550;
 }
-
+/*colisao do player com os carros */
 
 (function update(){
 
@@ -181,34 +139,16 @@ function restart() {
 
     ctx.beginPath();
     ctx.fillStyle = '#fff';
-    ctx.lineTo(10, 150);
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.fillStyle = '#fff';
     ctx.fillRect(playerPosx, playerPosy, plaherHei, playerWid);
     
-    ctx.beginPath();
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(carPosx, carPosy, carWid, carHei);
+ /* gerando "carros" */
+    for(var i = 0; i < 5; i++) {
+        ctx.beginPath();
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(carrosX[i], carrosY[i], carsWid, carsHei);
+    }
+ /* gerando "carros" */
 
-    ctx.beginPath();
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(car2posx, carPosy - 100, carWid, carHei);
-
-    ctx.beginPath();
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(car3posx, carPosy - 200, carWid, carHei);
-
-    
-    ctx.beginPath();
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(car4posx, carPosy - 300, carWid, carHei);
-
-    ctx.beginPath();
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(car5posx, carPosy - 400, carWid, carHei);
-    
 
     limite();
     colisao();
@@ -216,3 +156,4 @@ function restart() {
     move();
     requestAnimationFrame(update)
 })();
+
