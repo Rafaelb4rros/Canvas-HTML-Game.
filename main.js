@@ -10,11 +10,16 @@ playerSpd = 3;
 
 var carrosX = [730, 730, 730, 730, 730];
 var carrosY = [485, 485 -100, 485 -200, 485 -300, 485 -400];
-var carrosSpd = [45, 25, 35 , 30 ,20];
+var carrosSpd = [40, 30, 20, 25, 15];
 
 carsHei = 30;
 carsWid = 60;
 
+var pontos = document.createElement('h1');
+pontos.setAttribute('class', 'pontos');
+document.querySelector('div').appendChild(pontos);
+
+pontos.innerHTML = 0;
 
 /* movendo personagem */
 var UP = 38,  DOWN = 40, LEFT = 37, RIGHT = 39;
@@ -115,8 +120,8 @@ function colisao() {
         playerPosx + playerWid > carrosX[i] && 
         playerPosy < carrosY[i] + carsHei &&
         playerPosy + plaherHei > carrosY[i]) {
-
             restart();
+            pontos.innerHTML = 0;
     }
 }
 }
@@ -154,6 +159,13 @@ function restart() {
     colisao();
     movecar();
     move();
+    marcaPonto();
     requestAnimationFrame(update)
 })();
 
+function marcaPonto() {
+    if(playerPosy <= 30) {
+    pontos.innerHTML++;
+    restart();
+    }
+}
